@@ -17,7 +17,7 @@ import java.util.Map;
 public class KafkaProducerConfig {
 
     @Value("${kafka.host}")
-    private String kafkaBrokers;
+    private String host;
 
     @Bean
     public KafkaTemplate<String, Object> kafkaTemplate() {
@@ -26,16 +26,11 @@ public class KafkaProducerConfig {
 
     @Bean
     public ProducerFactory<String, Object> producerFactory() {
-        return new DefaultKafkaProducerFactory<>(producerConfigs());
-    }
-
-    @Bean
-    public Map<String, Object> producerConfigs() {
         Map<String, Object> config = new HashMap<>();
-        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaBrokers);
+        config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, host);
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         config.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
-        return config;
+        return new DefaultKafkaProducerFactory<>(config);
     }
 }
