@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: notification_service
+
+server:
+  port: 8002
+
+data:
+  mongodb:
+    host: localhost
+    port: 27017
+    database: spring-mongodb
+    username: admin
+    password: 123456
+
+kafka:
+  host: localhost:9092
+  topics:
+    user-created:
+      topic: user_service.user_created.0
+      consumerGroup: ${spring.application.name}-user-created-consumer
